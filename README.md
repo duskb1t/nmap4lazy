@@ -1,6 +1,6 @@
 # nmap4lazy
 
-**nmap4lazy** is a Python script that automates an Nmap discovery scan over all TCP ports. Essentially, it conducts a SYN scan across all TCP ports, extracts the open ports, and performs another version scan to ensure uncommon open ports aren't missed, as can happen with default settings.
+**nmap4lazy** is a Python script that automates an Nmap discovery scan over all TCP ports. Essentially, it conducts a SYN scan across all TCP ports, extracts the ones opened, and performs another version scan to ensure uncommon open ports aren't missed, as can happen with default settings.
 
 # Usage
 
