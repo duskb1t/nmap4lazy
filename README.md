@@ -10,7 +10,7 @@ First, clone the repository and display the help menu.
 git clone https://github.com/duskb1t/nmap4lazy
 cd nmap4lazy
 
-sudo python3 nmap4lazy.py --help
+python3 nmap4lazy.py --help
 ```
 
 ![Untitled](images/helpmenu.png)
@@ -18,7 +18,7 @@ sudo python3 nmap4lazy.py --help
 All that is left is to run the scan as root.
 
 ```bash
-sudo python3 nmap4lazy.py -t 10.129.229.17
+python3 nmap4lazy.py -t 10.129.228.120 -m 500
 ```
 
 ![Untitled](images/output1.png)
