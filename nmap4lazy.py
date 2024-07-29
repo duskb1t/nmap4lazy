@@ -68,7 +68,7 @@ def main():
         result = nmap_all_ports(target, minrate)
         open_ports = extract_ports(result)
         if not open_ports:
-            print(colored("\n[!] Not open ports found. Terminatting scan!", 'yellow'))
+            print(colored("\n[!] Not open ports found. Terminating scan!", 'yellow'))
             sys.exit(1)
         print(colored('\n[+]', 'yellow'), colored(f"Open ports: ", 'blue'))
         print(colored(f"\n{', '.join(open_ports)}", 'white'))
