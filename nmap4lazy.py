@@ -23,16 +23,10 @@ def hide_cursor():
 def is_root():
     return os.getuid() == 0
 
-def simple_address_validation(address):
-    pattern = r'\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b'
-    if re.match(pattern, address):
-        return True
-    return False
-
 def nmap_nse_scan(target, open_ports):
     command = f"/usr/bin/nmap {target} -sVC -p{','.join(open_ports)}"
-    print(colored(f"\n[+] Command being used:", 'magenta'))
-    print(f"\n{command}")
+    print(colored('\n[+]', 'yellow'), colored(f"Command being used:", 'blue'))
+    print(colored(f"\n{command}", 'magenta'))
     result = subprocess.check_output(shlex.split(command))
     return result.decode()
 
@@ -41,10 +35,10 @@ def extract_ports(result):
     open_ports = re.findall(pattern, result)
     return [port[:-4] for port in open_ports]
 
-def nmap_all_ports(target):
-    command = f"/usr/bin/nmap {target} -p- -sS -Pn -n --min-rate 5000"
-    print(colored(f"\n[+] Command being used:", 'magenta'))
-    print(f"\n{command}")
+def nmap_all_ports(target, minrate):
+    command = f"/usr/bin/nmap {target} -p- -sS -Pn -n --min-rate {minrate}"
+    print(colored('\n[+]', 'yellow'), colored(f"Command being used:", 'blue'))
+    print(colored(f"\n{command}", 'magenta'))
     process = subprocess.check_output(shlex.split(command))
     return process.decode()
 
@@ -54,6 +48,7 @@ def set_arguments():
         epilog="Example: sudo python3 nmap4lazy.py -t 192.168.45.123",
     )
     parser.add_argument('-t', '--target', dest='target', required=True)
+    parser.add_argument('-m', '--min-rate', default=5000, dest='minrate')
     args = parser.parse_args()
     return args
 
@@ -66,28 +61,24 @@ def main():
 
         args = set_arguments()
         target = args.target
-
-        if not simple_address_validation(target):
-            print(colored(f"\n[!] {target} is not a valid ip address", 'yellow'))
-            sys.exit(1)
+        minrate = args.minrate
 
         # first scan
-        print(colored("\n[+] Scanning all TCP ports...", 'magenta'))
-        result = nmap_all_ports(target)
+        print(colored('\n[+]', 'yellow'), colored("Scanning all TCP ports...", 'blue'))
+        result = nmap_all_ports(target, minrate)
         open_ports = extract_ports(result)
         if not open_ports:
-            print("\n[!] Not open ports found. Terminatting scan!")
+            print(colored("\n[!] Not open ports found. Terminatting scan!", 'yellow'))
             sys.exit(1)
-        print(colored(f"\n[+] Open ports: ", 'magenta'))
-        print(f"\n{', '.join(open_ports)}")
+        print(colored('\n[+]', 'yellow'), colored(f"Open ports: ", 'blue'))
+        print(colored(f"\n{', '.join(open_ports)}", 'white'))
 
         # second scan
-        print(colored("\n[+] NSE Scan in process. This might take a while...", 'magenta'))
+        print(colored('\n[+]', 'yellow'), colored("NSE Scan in process. This might take a while...", 'blue'))
         result = nmap_nse_scan(target, open_ports)
-        print(colored("\n[+] NSE Scan results: ", 'magenta'))
-        print(f"\n{result}")
+        print(colored(f"\n{result}", 'white'))
         
-        print(colored("[+] Script finished successfully", 'magenta'))
+        print(colored('[+]', 'yellow'), colored("Script finished successfully", 'blue'))
         sys.exit(0)
 
     except KeyboardInterrupt:
