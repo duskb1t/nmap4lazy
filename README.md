@@ -15,7 +15,7 @@ sudo python3 nmap4lazy.py --help
 
 ![Untitled](images/helpmenu.png)
 
-All that is left is to run the scan.
+All that is left is to run the scan as root.
 
 ```bash
 sudo python3 nmap4lazy.py -t 10.129.229.17
