@@ -8,6 +8,7 @@ First, clone the repository and display the help menu.
 
 ```bash
 sudo pip3 install termcolor
+
 git clone https://github.com/duskb1t/nmap4lazy
 cd nmap4lazy
 
