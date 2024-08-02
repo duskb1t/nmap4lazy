@@ -42,13 +42,21 @@ def nmap_all_ports(target, minrate):
     process = subprocess.check_output(shlex.split(command))
     return process.decode()
 
+def validate_target(target):
+    pattern = re.compile(
+        r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$" 
+    )
+    if not pattern.match(target):
+        raise Exception(colored("\n[!] Invalid target. Must be a valid IP address!", 'yellow', attrs=['bold']))
+    return target
+
 def set_arguments():
     parser = argparse.ArgumentParser(
         description="Nmap for lazy people =)",
         epilog="Example: sudo python3 nmap4lazy.py -t <IP-ADDRESS> -m <MIN-RATE>",
     )
     parser.add_argument('-t', '--target', dest='target', required=True)
-    parser.add_argument('-m', '--min-rate', default=5000, dest='minrate')
+    parser.add_argument('-m', '--min-rate', default='5000', dest='minrate', choices=['500', '1000', '2000', '5000'])
     args = parser.parse_args()
     return args
 
@@ -60,7 +68,7 @@ def main():
             sys.exit(1)
 
         args = set_arguments()
-        target = args.target
+        target = validate_target(args.target)
         minrate = args.minrate
 
         # first scan
@@ -83,6 +91,10 @@ def main():
 
     except KeyboardInterrupt:
         print(colored("\n[!] Keyboard interrumpt detected. Quitting!", 'yellow', attrs=['bold']))
+        sys.exit(1)
+
+    except Exception as e:
+        print(e)
         sys.exit(1)
 
     finally:
