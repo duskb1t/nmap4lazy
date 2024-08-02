@@ -25,7 +25,7 @@ def is_root():
 
 def nmap_nse_scan(target, open_ports):
     command = f"/usr/bin/nmap {target} -sVC -p{','.join(open_ports)}"
-    print(colored('\n[+]', 'yellow'), colored(f"Command being used:", 'blue'))
+    print(colored('\n[+]', 'yellow', attrs=['bold']), colored(f"Command being used:", 'blue'))
     print(colored(f"\n{command}", 'magenta'))
     result = subprocess.check_output(shlex.split(command))
     return result.decode()
@@ -37,7 +37,7 @@ def extract_ports(result):
 
 def nmap_all_ports(target, minrate):
     command = f"/usr/bin/nmap {target} -p- -sS -Pn -n --min-rate {minrate}"
-    print(colored('\n[+]', 'yellow'), colored(f"Command being used:", 'blue'))
+    print(colored('\n[+]', 'yellow', attrs=['bold']), colored(f"Command being used:", 'blue'))
     print(colored(f"\n{command}", 'magenta'))
     process = subprocess.check_output(shlex.split(command))
     return process.decode()
@@ -56,7 +56,7 @@ def main():
     hide_cursor()
     try:
         if not is_root():
-            print(colored("\n[!] This script must be run as root", 'yellow'))
+            print(colored("\n[!] This script must be run as root", 'yellow', attrs=['bold']))
             sys.exit(1)
 
         args = set_arguments()
@@ -64,25 +64,25 @@ def main():
         minrate = args.minrate
 
         # first scan
-        print(colored('\n[+]', 'yellow'), colored("Scanning all TCP ports...", 'blue'))
+        print(colored('\n[+]', 'yellow', attrs=['bold']), colored("Scanning all TCP ports...", 'blue'))
         result = nmap_all_ports(target, minrate)
         open_ports = extract_ports(result)
         if not open_ports:
             print(colored("\n[!] Not open ports found. Terminating scan!", 'yellow'))
             sys.exit(1)
-        print(colored('\n[+]', 'yellow'), colored(f"Open ports: ", 'blue'))
+        print(colored('\n[+]', 'yellow', attrs=['bold']), colored(f"Open ports: ", 'blue'))
         print(colored(f"\n{', '.join(open_ports)}", 'white'))
 
         # second scan
-        print(colored('\n[+]', 'yellow'), colored("NSE Scan in process. This might take a while...", 'blue'))
+        print(colored('\n[+]', 'yellow', attrs=['bold']), colored("NSE Scan in process. This might take a while...", 'blue'))
         result = nmap_nse_scan(target, open_ports)
         print(colored(f"\n{result}", 'white'))
         
-        print(colored('[+]', 'yellow'), colored("Script finished successfully", 'blue'))
+        print(colored('[+]', 'yellow', attrs=['bold']), colored("Script finished successfully", 'blue'))
         sys.exit(0)
 
     except KeyboardInterrupt:
-        print(colored("\n[!] Keyboard interrumpt detected. Quitting!", 'yellow'))
+        print(colored("\n[!] Keyboard interrumpt detected. Quitting!", 'yellow', attrs=['bold']))
         sys.exit(1)
 
     finally:
