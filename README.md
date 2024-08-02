@@ -12,7 +12,7 @@ sudo pip3 install termcolor
 git clone https://github.com/duskb1t/nmap4lazy
 cd nmap4lazy
 
-python3 nmap4lazy.py --help
+sudo python3 nmap4lazy.py --help
 ```
 
 ![Untitled](images/helpmenu.png)
@@ -20,7 +20,7 @@ python3 nmap4lazy.py --help
 All that is left is to run the scan as root.
 
 ```bash
-python3 nmap4lazy.py -t 10.129.228.120 -m 500
+sudo python3 nmap4lazy.py -t 10.129.228.120
 ```
 
 ![Untitled](images/output1.png)
