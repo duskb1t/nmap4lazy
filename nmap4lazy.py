@@ -44,8 +44,8 @@ def nmap_all_ports(target, minrate):
 
 def set_arguments():
     parser = argparse.ArgumentParser(
-        description="nmap for lazy people",
-        epilog="Example: sudo python3 nmap4lazy.py -t 192.168.45.123",
+        description="Nmap for lazy people =)",
+        epilog="Example: sudo python3 nmap4lazy.py -t <IP-ADDRESS> -m <MIN-RATE>",
     )
     parser.add_argument('-t', '--target', dest='target', required=True)
     parser.add_argument('-m', '--min-rate', default=5000, dest='minrate')
